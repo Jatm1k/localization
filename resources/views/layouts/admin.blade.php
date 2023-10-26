@@ -1,10 +1,11 @@
 @extends('layouts.base')
 
 @section('content')
-@include('admin.includes.navbar')
+    @include('admin.includes.navbar')
     <section>
         <div class="container">
-            <h3>@yield('admin.title')</h3>
+            @include('admin.includes.header')
+            @include('admin.includes.errors')
             @yield('admin.content')
         </div>
     </section>

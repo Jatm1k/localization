@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Language extends Model
 {
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'id', 'name',
         'active', 'default', 'fallback',
@@ -22,4 +25,23 @@ class Language extends Model
         'default' => 'boolean',
         'fallback' => 'boolean',
     ];
+
+    public function getStateText(): string
+    {
+        $state = [];
+
+        if($this->active) {
+            $state[] = 'Активный';
+        }
+
+        if($this->default) {
+            $state[] = 'По умолчанию';
+        }
+
+        if($this->fallback) {
+            $state[] = 'Резервный';
+        }
+
+        return implode(', ', $state);
+    }
 }

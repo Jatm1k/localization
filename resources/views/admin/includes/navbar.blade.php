@@ -10,6 +10,11 @@
                     <a href="{{ route('admin.home') }}" class="nav-link {{ active_link('admin.home', 'text-primary') }}"
                         aria-current="page">Главная</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.languages.index') }}"
+                        class="nav-link {{ active_link('admin.languages*', 'text-primary') }}"
+                        aria-current="page">Языки</a>
+                </li>
             </ul>
         </div>
     </div>
