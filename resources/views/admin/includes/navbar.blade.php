@@ -16,6 +16,7 @@
                         aria-current="page">Языки</a>
                 </li>
             </ul>
+            @include('includes.languages')
         </div>
     </div>
 </nav>
