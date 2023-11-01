@@ -4,35 +4,52 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Language;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class LanguageRouteMiddleware
 {
+    private string|null $prefix;
+    private string $defaultLanguage;
+    private string $currentLanguage;
+    public function __construct()
+    {
+        $this->prefix = Language::routePrefix();
+        $this->currentLanguage = app()->getLocale();
+        $this->defaultLanguage = Language::findDefault()->id;
+    }
     public function handle(Request $request, Closure $next): Response
     {
-        $prefix = Language::routePrefix();
-        $currentLanguage = app()->getLocale();
-        if($prefix === $currentLanguage) {
+        if ($this->currentLanguage === $this->defaultLanguage) {
+            if(is_null($this->prefix)) {
+                return $next($request);
+            }
+            return $this->redirect($request);
+        }
+
+        if($this->prefix === $this->currentLanguage) {
             return $next($request);
         }
 
-        $url = $this->generateUrl($request, $currentLanguage, $prefix);
-
-        return redirect($url);
+        return $this->redirect($request);
     }
 
-    private function generateUrl(Request $request, string $currentLanguage, string|null $prefix): string
+    private function redirect(Request $request): RedirectResponse
     {
-        $url = $currentLanguage;
+        $url = $this->currentLanguage;
+        $this->defaultLanguage === $this->currentLanguage && $url = '';
+
         $segments = $request->segments();
-        $prefix && array_shift($segments);
+        $this->prefix && array_shift($segments);
         $url .= '/' . implode('/', $segments);
 
         if($query = request()->getQueryString()) {
             $url .= '?' . $query;
         }
 
-        return $url;
+        // dd($url);
+
+        return redirect($url);
     }
 }
