@@ -12,6 +12,12 @@
                         {{ trans('navbar.home') }}
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('placeholders') }}"
+                        class="nav-link {{ active_link('placeholders', 'text-primary') }}" aria-current="page">
+                        {{ trans('navbar.placeholders') }}
+                    </a>
+                </li>
             </ul>
             @include('includes.languages')
         </div>
