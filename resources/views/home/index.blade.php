@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
-@section('main.title', 'Главная')
+@section('main.title', trans('home.title'))
 @section('main.content')
-    Текущий язык: {{ app()->getLocale() }}
-    Текущий резеврный язык: {{ app()->getFallbackLocale() }}
+    {{ trans('home.language.current') }} {{ app()->getLocale() }}
+    {{ trans('home.language.fallback') }} {{ app()->getFallbackLocale() }}
 @endsection
