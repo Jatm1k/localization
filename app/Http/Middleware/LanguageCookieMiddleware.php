@@ -11,10 +11,20 @@ class LanguageCookieMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if ($id = $request->cookie('language')) {
-            $language = Language::findActive($id);
-            $language && app()->setLocale($id);
+        $id = $request->cookie('language');
+
+        if (is_null($id)) {
+            return $next($request);
         }
+
+        if (app()->isLocale($id)) {
+            return $next($request);
+        }
+
+        $language = Language::findActive($id);
+
+        $language && app()->setLocale($id);
+
         return $next($request);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property int $id
@@ -27,6 +28,14 @@ class Language extends Model
         'fallback' => 'boolean',
     ];
 
+
+    public static function booted():void
+    {
+        static::saved(function (Language $language) {
+            Cache::forget('languages');
+        });
+    }
+
     public function getStateText(): string
     {
         $state = [];
@@ -48,27 +57,27 @@ class Language extends Model
 
     public static function findDefault(): self|null
     {
-        return self::query()
-            ->where('active', true)
-            ->where('default', true)
-            ->first();
+        return self::getActive()->firstWhere('default', true);
     }
     public static function findFallback(): self|null
     {
-        return self::query()
-            ->where('active', true)
-            ->where('fallback', true)
-            ->first();
+        return self::getActive()->firstWhere('fallback', true);
     }
     public static function getActive(): Collection
     {
-        return self::query()
-            ->where('active', true)
-            ->get();
+        return Cache::remember(
+            key: 'languages',
+            ttl: now()->addDay(),
+            callback: function () {
+                return self::query()
+                    ->where('active', true)
+                    ->get();
+            }
+        );
     }
     public static function findActive(string $id): self|null
     {
-        return self::query()->find($id);
+        return self::getActive()->firstWhere('id', $id);
     }
     public static function routePrefix(): string|null
     {
