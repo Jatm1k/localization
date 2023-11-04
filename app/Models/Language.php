@@ -34,6 +34,9 @@ class Language extends Model
         static::saved(function (Language $language) {
             Cache::forget('languages');
         });
+        static::deleted(function (Language $language) {
+            Cache::forget('languages');
+        });
     }
 
     public function getStateText(): string

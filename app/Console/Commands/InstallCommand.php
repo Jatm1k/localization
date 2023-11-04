@@ -13,6 +13,7 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->call(InstallLanguagesCommand::class);
+        $this->call(InstallTranslationsCommand::class);
         $this->info('Приложение установлено');
     }
 }

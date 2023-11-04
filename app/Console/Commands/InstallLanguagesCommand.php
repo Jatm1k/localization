@@ -16,12 +16,16 @@ class InstallLanguagesCommand extends Command
      */
     public function handle()
     {
-        $this->createLanguages();
+        $this->installLanguages();
         $this->info('Языки установлены');
     }
 
-    private function createLanguages()
+    private function installLanguages()
     {
+        if(Language::query()->exists()) {
+            return;
+        }
+        
         $templates = [
             ['id' => 'ru', 'name' => 'Русский', 'active' => true, 'default' => true, 'fallback' => false],
             ['id' => 'en', 'name' => 'English', 'active' => true, 'default' => false, 'fallback' => true],
