@@ -20,6 +20,12 @@
                         class="nav-link {{ active_link('admin.translations*', 'text-primary') }}"
                         aria-current="page">Переводы</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.posts.index') }}"
+                        class="nav-link {{ active_link('admin.posts*', 'text-primary') }}" aria-current="page">
+                        Посты
+                    </a>
+                </li>
             </ul>
             @include('includes.languages')
         </div>
