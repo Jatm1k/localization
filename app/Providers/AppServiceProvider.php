@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Translatable\Facades\Translatable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,5 +43,10 @@ class AppServiceProvider extends ServiceProvider
         $language = Language::findFallback();
 
         $language && app()->setFallbackLocale($language->id);
+
+        Translatable::fallback(
+            fallbackAny: true,
+            fallbackLocale: $language->id
+        );
     }
 }

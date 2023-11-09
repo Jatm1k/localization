@@ -10,3 +10,7 @@
         </div>
     </section>
 @endsection
+
+@push('js')
+    <script src="//unpkg.com/alpinejs" defer></script>
+@endpush

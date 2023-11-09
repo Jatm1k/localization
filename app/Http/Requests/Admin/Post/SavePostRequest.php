@@ -6,10 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class SavePostRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'title' => array_filter($this->input('title'))
+        ]);
+    }
+
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:100'],
+            'title' => ['required', 'array', 'min:1'],
+            'title.*' => ['required', 'string'],
         ];
     }
 }

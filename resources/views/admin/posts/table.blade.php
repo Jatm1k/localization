@@ -5,16 +5,19 @@
         <table class="table">
             <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>Заголовок</td>
-                    <td></td>
+                    <th>ID</th>
+                    <th>Заголовок</th>
+                    <th>Переведено</th>
+                    <th></th>
                 </tr>
             </thead>
+            @php($languagesCount = App\Models\Language::query()->count())
             <tbody>
                 @foreach ($posts as $post)
                     <tr>
                         <td>{{ $post->id }}</td>
                         <td>{{ $post->title }}</td>
+                        <td>{{ count($post->getTranslations('title')) }} / {{ $languagesCount }}</td>
                         <td class="d-flex">
                             <a href="{{ route('admin.posts.edit', $post) }}" class="btn text-success btn-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
