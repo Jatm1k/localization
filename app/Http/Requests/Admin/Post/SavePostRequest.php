@@ -18,6 +18,8 @@ class SavePostRequest extends FormRequest
         return [
             'title' => ['required', 'array', 'min:1'],
             'title.*' => ['required', 'string'],
+            'languages' => ['nullable', 'array'],
+            'languages.*' => ['required', 'string', 'exists:languages,id'],
         ];
     }
 }

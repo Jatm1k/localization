@@ -19,5 +19,9 @@ class Post extends Model
 
     protected $fillable = [
         'title',
+        'languages',
+    ];
+    protected $casts = [
+        'languages' => 'array',
     ];
 }

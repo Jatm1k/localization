@@ -11,7 +11,10 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::query()->latest('id')->paginate(15);
+        $posts = Post::query()
+            // ->whereJsonContains('languages', app()->getLocale())
+            ->latest('id')
+            ->paginate(15);
         return view('admin.posts.index', [
             'posts' => $posts,
         ]);

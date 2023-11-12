@@ -17,6 +17,17 @@
                     class="form-control">
             </div>
         @endforeach
+        <lavel class="form-label">Публиковать на:</lavel>
+        @foreach ($languages as $language)
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="languages[]" value="{{ $language->id }}"
+                    @checked(in_array($language->id, $post->languages ?: [])) id="languages-{{ $language->id }}">
+                <label class="form-check-label" for="languages-{{ $language->id }}">
+                    {{ $language->name }}
+                </label>
+            </div>
+        @endforeach
+
     </div>
     <button class="btn btn-primary">Сохранить</button>
 </form>
